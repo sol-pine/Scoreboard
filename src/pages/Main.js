@@ -1,15 +1,17 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-//push
+
 function Main() {
+  const navigate = useNavigate();
   const dayText = {
-    0: "Sun",
-    1: "Mon",
-    2: "Tue",
-    3: "Wed",
-    4: "Thu",
-    5: "Fri",
-    6: "Sat",
+    0: "Sunday",
+    1: "Monday",
+    2: "Tuesday",
+    3: "Wednesday",
+    4: "Thursday",
+    5: "Friday",
+    6: "Saturday",
   };
 
   const days = Object.keys(dayText).map((list, idx) => {
@@ -31,10 +33,18 @@ function Main() {
           {days.map((list, idx) => {
             return (
               <Score key={idx}>
-                <Day>{dayText[idx]}</Day>
-                {Array.from({ length: 5 }, (item, idx) => {
-                  return <Circle key={idx} />;
-                })}
+                <Day
+                  onClick={() => {
+                    navigate(`/review/${dayText[idx]}`);
+                  }}
+                >
+                  {dayText[idx].substr(0, 3)}
+                </Day>
+                <CircleWrapper>
+                  {Array.from({ length: 5 }, (item, idx) => {
+                    return <Circle key={idx} />;
+                  })}
+                </CircleWrapper>
               </Score>
             );
           })}
@@ -47,7 +57,7 @@ function Main() {
 
 const Container = styled.div`
   width: 400px;
-  /* height: 740px; */
+  height: 850px;
   border: 3px solid #001c06;
   border-radius: 18px;
   margin: 100px auto;
@@ -80,20 +90,23 @@ const ScoresContainer = styled.div`
   margin-top: 50px;
 `;
 const Score = styled.div`
-  width: 80%;
+  width: 65%;
   display: flex;
-  margin: 10px auto;
+  margin: 55px auto;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 const Day = styled.div`
   font-family: machomodular, sans-serif;
   font-weight: 700;
   font-style: normal;
-  font-size: 20px;
+  font-size: 25px;
   color: #01fd55;
   margin-top: 7px;
   margin-right: 10px;
+  position: absolute;
+  left: 0;
   :hover {
     cursor: pointer;
     color: #8df4ff;
@@ -101,6 +114,11 @@ const Day = styled.div`
     font-weight: 700;
     font-style: normal;
   }
+`;
+const CircleWrapper = styled.div`
+  position: absolute;
+  right: 0;
+  display: flex;
 `;
 const Circle = styled.div`
   width: 30px;
