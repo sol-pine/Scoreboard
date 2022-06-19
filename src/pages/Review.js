@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
+function Review() {}
 const Circle = styled.div`
   width: 30px;
   height: 30px;
@@ -13,3 +14,4 @@ const Circle = styled.div`
     transition: 0.5s ease;
   }
 `;
+export default Review;
