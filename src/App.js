@@ -1,3 +1,5 @@
+// personal practice
+// 22/6/21 마지막 수정
 import React from "react";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";

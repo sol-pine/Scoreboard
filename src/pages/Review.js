@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 function Review() {
   const params = useParams();
   const navigate = useNavigate();
+  const [score, setScore] = useState(0);
+  useEffect(() => {
+    console.log(score);
+  }, [score]);
+
   return (
     <>
       <Container>
@@ -16,11 +21,22 @@ function Review() {
           weekly scoreboard
         </Title>
         <Message>
+          {/* 요일을 파라미터로 가져와서 보여주기 */}
           <span>{params.dayText}</span>'s score?
         </Message>
         <Score>
           {Array.from({ length: 5 }, (item, idx) => {
-            return <Circle key={idx} />;
+            return (
+              <Circle
+                key={idx}
+                onClick={() => {
+                  setScore(idx + 1);
+                }}
+                style={{
+                  backgroundColor: score < idx + 1 ? "#037f26" : "#01fd55",
+                }}
+              />
+            );
           })}
         </Score>
         <BtnSubmit>Submit</BtnSubmit>
@@ -70,14 +86,10 @@ const Score = styled.div`
 const Circle = styled.div`
   width: 30px;
   height: 30px;
-  background: #037f26;
   border-radius: 35px;
   margin-left: 10px;
-  :hover {
-    cursor: pointer;
-    background: #01fd55;
-    transition: 0.5s ease;
-  }
+  transition: 0.2s ease;
+  cursor: pointer;
 `;
 const BtnSubmit = styled.div`
   width: 100px;

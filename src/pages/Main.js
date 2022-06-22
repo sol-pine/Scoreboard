@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 function Main() {
   const navigate = useNavigate();
+  // 요일 딕셔너리
   const dayText = {
     0: "Sunday",
     1: "Monday",
@@ -13,13 +14,20 @@ function Main() {
     5: "Friday",
     6: "Saturday",
   };
-
+  // 0~6까지의 요일 중 오늘 요일을 제일 상단에 보여주기
   const days = Object.keys(dayText).map((list, idx) => {
     const today = new Date().getDay();
     const day =
       today + parseInt(list) > 6
         ? today + parseInt(list) - 7
         : today + parseInt(list);
+    return dayText[day];
+  });
+
+  // 합계
+  const scoreSum = 0;
+  const scoreWeek = days.map((list, idx) => {
+    return null;
   });
 
   return (
@@ -38,7 +46,7 @@ function Main() {
                     navigate(`/review/${dayText[idx]}`);
                   }}
                 >
-                  {dayText[idx].substr(0, 3)}
+                  {days[idx].substr(0, 3)}
                 </Day>
                 <CircleWrapper>
                   {Array.from({ length: 5 }, (item, idx) => {
