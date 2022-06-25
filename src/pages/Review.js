@@ -1,11 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { setDoc, doc } from "firebase/firestore";
+import { db } from "../shared/firebase";
 
 function Review() {
   const params = useParams();
   const navigate = useNavigate();
   const [score, setScore] = useState(0);
+
+  // middleware
+  // 입력된 score를 요일별로 db에 덮어쓰기
+  async function addScore() {
+    const scoreRef = doc(db, "scores", `${params.days}`);
+    setDoc(scoreRef, { score: score }, { merge: true });
+    console.log("ok!");
+    alert(`your score is now saved!`);
+    navigate("/");
+  }
+
+  // useState의 시간차가 생겨 잡아주기 위해 두번째 파라미터에 score 넣어줌
   useEffect(() => {
     console.log(score);
   }, [score]);
@@ -22,7 +36,7 @@ function Review() {
         </Title>
         <Message>
           {/* 요일을 파라미터로 가져와서 보여주기 */}
-          <span>{params.dayText}</span>'s score?
+          <span>{params.days}</span>'s score?
         </Message>
         <Score>
           {Array.from({ length: 5 }, (item, idx) => {
@@ -39,7 +53,7 @@ function Review() {
             );
           })}
         </Score>
-        <BtnSubmit>Submit</BtnSubmit>
+        <BtnSubmit onClick={addScore}>Submit</BtnSubmit>
       </Container>
     </>
   );

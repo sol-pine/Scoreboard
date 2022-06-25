@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { getDocs, collection } from "firebase/firestore";
+import { db } from "../shared/firebase";
 
 function Main() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    async function fetchData() {
+      const query = await getDocs(collection(db, "scores"));
+      query.forEach((doc) => {
+        console.log(doc.id, doc.data());
+      });
+    }
+    fetchData();
+  }, []);
+
   // 요일 딕셔너리
   const dayText = {
     0: "Sunday",
@@ -43,7 +56,7 @@ function Main() {
               <Score key={idx}>
                 <Day
                   onClick={() => {
-                    navigate(`/review/${dayText[idx]}`);
+                    navigate(`/review/${days[idx]}`);
                   }}
                 >
                   {days[idx].substr(0, 3)}
