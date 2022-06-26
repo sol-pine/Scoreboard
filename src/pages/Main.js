@@ -1,22 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { getDocs, collection } from "firebase/firestore";
+import { getDocs, collection, doc, deleteDoc } from "firebase/firestore";
 import { db } from "../shared/firebase";
 
 function Main() {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    async function fetchData() {
-      const query = await getDocs(collection(db, "scores"));
-      query.forEach((doc) => {
-        console.log(doc.id, doc.data());
-      });
-    }
-    fetchData();
-  }, []);
-
+  const [score, setScore] = useState([0, 0, 0, 0, 0, 0, 0]);
+  // 파이어베이스 id 와 요일을 맞춰주기 위해 배열 생성
+  const weeklyScore = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
   // 요일 딕셔너리
   const dayText = {
     0: "Sunday",
@@ -27,28 +27,61 @@ function Main() {
     5: "Friday",
     6: "Saturday",
   };
+  useEffect(() => {
+    async function fetchData() {
+      const query = await getDocs(collection(db, "scores"));
+      let copy = [...score];
+      query.forEach((doc) => {
+        console.log(doc.id, doc.data());
+        weeklyScore.map((l, idx) => {
+          if (doc.id === weeklyScore[idx]) {
+            copy[idx] = doc.data().score;
+            setScore(copy);
+          }
+        });
+      });
+    }
+    const dayScore = Object.keys(dayText).map((list, idx) => {
+      const today = new Date().getDay();
+      const day = (today + parseInt(list)) % 7;
+      return score[day];
+    });
+    setScore(dayScore);
+    fetchData();
+  }, []);
+
   // 0~6까지의 요일 중 오늘 요일을 제일 상단에 보여주기
   const days = Object.keys(dayText).map((list, idx) => {
     const today = new Date().getDay();
-    const day =
-      today + parseInt(list) > 6
-        ? today + parseInt(list) - 7
-        : today + parseInt(list);
+    const day = (today + parseInt(list)) % 7;
     return dayText[day];
   });
 
-  // 합계
-  const scoreSum = 0;
-  const scoreWeek = days.map((list, idx) => {
-    return null;
+  // score 평균 구하기
+  let scoreSum = 0;
+  score.map((list, idx) => {
+    scoreSum += list;
   });
+  const scoreAvg = scoreSum / 7;
 
+  // 리셋하기
+  async function reset() {
+    await deleteDoc(doc(db, "scores", "Monday"));
+    await deleteDoc(doc(db, "scores", "Tuesday"));
+    await deleteDoc(doc(db, "scores", "Wednesday"));
+    await deleteDoc(doc(db, "scores", "Thursday"));
+    await deleteDoc(doc(db, "scores", "Friday"));
+    await deleteDoc(doc(db, "scores", "Saturday"));
+    await deleteDoc(doc(db, "scores", "Sunday"));
+    alert("reset!");
+    window.location.reload();
+  }
   return (
     <>
       <Container>
         <Title>weekly scoreboard</Title>
         <AvgScore>
-          Average Score <p>0.0</p>
+          Average Score <p>{scoreAvg.toFixed(1)}</p>
         </AvgScore>
         <ScoresContainer>
           {days.map((list, idx) => {
@@ -62,15 +95,23 @@ function Main() {
                   {days[idx].substr(0, 3)}
                 </Day>
                 <CircleWrapper>
-                  {Array.from({ length: 5 }, (item, idx) => {
-                    return <Circle key={idx} />;
+                  {Array.from({ length: 5 }, (item, i) => {
+                    return (
+                      <Circle
+                        key={i}
+                        style={{
+                          backgroundColor:
+                            score[idx] < i + 1 ? "#037f26" : "#01fd55",
+                        }}
+                      />
+                    );
                   })}
                 </CircleWrapper>
               </Score>
             );
           })}
         </ScoresContainer>
-        <BtnReset>Reset</BtnReset>
+        <BtnReset onClick={reset}>Reset</BtnReset>
       </Container>
     </>
   );

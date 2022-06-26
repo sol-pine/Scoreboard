@@ -1,5 +1,6 @@
+// ScoreBoard
 // personal practice
-// 22/6/21 마지막 수정
+// 수정일자: 22/6/26
 import React from "react";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
