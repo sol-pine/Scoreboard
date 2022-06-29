@@ -10,13 +10,11 @@
 
 # ✨ 기능
 
-![ezgif com-gif-maker (2)](https://user-images.githubusercontent.com/105091138/176483667-5448da57-5392-4509-b5e7-22473cbe6e43.gif)
+https://user-images.githubusercontent.com/105091138/176494019-77578eca-9f59-49a6-b30d-c07dfcc0e562.mov
 - 메인 페이지
     - 일주일 평균 점수 확인
     - 오늘 요일이 리스트 상단에 위치
     - `리셋버튼`을 누르면 점수 리셋
-
-![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/105091138/176483176-f1c643bf-2ed3-42d6-b989-53d91fb79b11.gif)
 - 리뷰 페이지
     - 선택한 요일을 파라미터로 가져와 해당 요일을 화면에 보여주기
     - 점수를 입력하면 데이터베이스에 저장했다가 메인 페이지에 보여주기
