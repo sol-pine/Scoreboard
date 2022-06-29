@@ -36,17 +36,16 @@ function Main() {
         weeklyScore.map((l, idx) => {
           if (doc.id === weeklyScore[idx]) {
             copy[idx] = doc.data().score;
-            setScore(copy);
           }
         });
       });
+      const dayScore = Object.keys(dayText).map((list, idx) => {
+        const today = new Date().getDay();
+        const day = (today + parseInt(list)) % 7;
+        return copy[day];
+      });
+      setScore(dayScore);
     }
-    const dayScore = Object.keys(dayText).map((list, idx) => {
-      const today = new Date().getDay();
-      const day = (today + parseInt(list)) % 7;
-      return score[day];
-    });
-    setScore(dayScore);
     fetchData();
   }, []);
 
