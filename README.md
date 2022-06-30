@@ -1,14 +1,14 @@
 ![rate11_대지 1](https://user-images.githubusercontent.com/105091138/176481752-6c544082-9cdb-4aa1-8c67-cd083baf69d9.png)
-# 🟢 개요
+## 🟢 개요
 
 매일 1점부터 5점까지 점수를 입력해 일주일 평균 점수를 확인할 수 있는 스코어보드
 
-# 💪 목적
+## 💪 목적
 
 - 최소한의 컴포넌트 사용
 - firebase를 사용해 서버에 데이터 저장
 
-# ✨ 기능
+## ✨ 기능
 
 https://user-images.githubusercontent.com/105091138/176497468-d3abc3ab-371e-4d5e-9eb0-a283b90adad3.mov
 - 메인 페이지
@@ -19,7 +19,7 @@ https://user-images.githubusercontent.com/105091138/176497468-d3abc3ab-371e-4d5e
     - 선택한 요일을 파라미터로 가져와 해당 요일을 화면에 보여주기
     - 점수를 입력하면 데이터베이스에 저장했다가 메인 페이지에 보여주기
     
-# 🚀 트러블슈팅
+## 🚀 트러블슈팅
 
 ### **에러**
 
